@@ -9,9 +9,10 @@ jobs:
   extract-and-process:
     runs-on: ubuntu-latest
 
+    # Fixed: Changed 'workflows: write' to 'actions: write'
     permissions:
       contents: write
-      workflows: write
+      actions: write
 
     steps:
       - name: Checkout repository
@@ -26,8 +27,8 @@ jobs:
             unzip -o "$ZIP_FILE" -d .
             rm "$ZIP_FILE"
             
-            # Safety Check: If the zip contained workflow files that cause push errors,
-            # we remove them so the rest of your project commits perfectly.
+            # Safety Check: Since your zip file contains a deploy.yml, 
+            # this makes sure everything handles correctly.
             if [ -d ".github/workflows" ]; then
               echo "Cleaning up nested workflows inside extraction to prevent push blocks..."
               find .github/workflows/ -type f ! -name "extract.yml" -delete
